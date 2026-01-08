@@ -36,7 +36,7 @@ public class PositionUpdatedConsumer {
         String correlationId = (String) positionEvent.get("correlationId");
 
         try {
-            MDC.put(CorrelationIdFilter.CORRELATION_ID_KEY, correlationId);
+            MDC.put(CorrelationIdFilter.CORRELATION_ID_MDC_KEY, correlationId);
             log.info("Received position update for risk evaluation: positionId={}, partition={}, offset={}",
                 positionId, record.partition(), record.offset());
 
@@ -49,7 +49,7 @@ public class PositionUpdatedConsumer {
             log.error("Failed to evaluate risk for position: positionId={}", positionId, e);
             throw e;
         } finally {
-            MDC.remove(CorrelationIdFilter.CORRELATION_ID_KEY);
+            MDC.remove(CorrelationIdFilter.CORRELATION_ID_MDC_KEY);
         }
     }
 
